@@ -158,7 +158,7 @@ func (whisper *Whisper) fileReadAt(b []byte, off int64) error {
 func Create(path string, retentions Retentions, aggregationMethod AggregationMethod, xFilesFactor float32) (whisper *Whisper, err error) {
 	return CreateWithOptions(path, retentions, aggregationMethod, xFilesFactor, &Options{
 		Sparse: false,
-		FLock: false,
+		FLock:  false,
 	})
 }
 
@@ -359,6 +359,13 @@ func (whisper *Whisper) writeHeader() (err error) {
 	_, err = whisper.file.Write(b)
 
 	return err
+}
+
+/*
+  Sync the whisper file
+*/
+func (whisper *Whisper) Sync() {
+	whisper.file.Sync()
 }
 
 /*
